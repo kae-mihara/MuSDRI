@@ -4,13 +4,13 @@ library(xts)
 library(ggplot2)
 
 
-train_data_statiton <- read.csv(file = 'data/train/train_null.csv')
+train_data_statiton <- read.csv(file = '/home/jhzhou/repos/tourism-imputation/data/open-data/HK2012-2018/Australia.csv', header = TRUE, sep = ",")
 test_data_statiton <- read.csv(file = 'data/test/test_null.csv')
 
 vals =c(1:5)
 
 for(i in vals){
-  time_serise = ts(train_data_statiton[,i], frequency = 84)
+  time_serise = ts(train_data_statiton[,i], frequency = 12)
   print(i)
   stl2 = stlplus(time_serise, s.window="periodic")
   trend = stl2$data[,"trend"]
@@ -28,14 +28,14 @@ for(i in vals){
   }
 }
 
-write.csv(train_trend_dataframe,paste("data/train/stlplus_train_trend84.csv", sep = ""))
-write.csv(train_seasonal_dataframe,paste("data/train/stlplus_train_seasonal84.csv", sep = ""))
-write.csv(train_remainder_dataframe,paste("data/train/stlplus_train_remainder84.csv", sep = ""))
+write.csv(train_trend_dataframe,paste("data/train/stlplus_train_trend12.csv", sep = ""))
+write.csv(train_seasonal_dataframe,paste("data/train/stlplus_train_seasonal12.csv", sep = ""))
+write.csv(train_remainder_dataframe,paste("data/train/stlplus_train_remainder12.csv", sep = ""))
 
 
 for(i in vals){
   print(i)
-  time_serise = ts(test_data_statiton[,i], frequency = 84)
+  time_serise = ts(test_data_statiton[,i], frequency = 12)
   stl2 = stlplus(time_serise, s.window="periodic")
   trend = stl2$data[,"trend"]
   seasonal = stl2$data[,"seasonal"]
@@ -55,4 +55,3 @@ for(i in vals){
 write.csv(test_trend_dataframe,paste("data/test/stlplus_test_trend84.csv", sep = ""))
 write.csv(test_seasonal_dataframe,paste("data/test/stlplus_test_seasonal84.csv", sep = ""))
 write.csv(test_remainder_dataframe,paste("data/test/stlplus_test_remainder84.csv", sep = ""))
-
